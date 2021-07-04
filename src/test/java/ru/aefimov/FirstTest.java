@@ -3,30 +3,85 @@ package ru.aefimov;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import java.io.File;
+
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.by;
+import static com.codeborne.selenide.Selenide.*;
 
 
 public class FirstTest {
 
+    String path = "src/test/resources/";
+    File file = new File(path);
+    String absolutePath = file.getAbsolutePath();
+
+/*    void setDateByName(String name, String date) {
+           executeJavaScript(
+                   String.format("$('[name=\"%s\"]').val('%s')",
+                           name, date)
+           );
+       }
+*/
     @BeforeAll
-    static void setupTest() {
+    static void setup() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.startMaximized = true;
     }
 
+
     @Test
     void positiveFillTextFormTest() {
-        open ("/automation-practice-form");
+        System.getProperty("user.dir");
+        open("/automation-practice-form");
         $("#firstName").setValue("Alexey");
         $("#lastName").setValue("Efimov");
         $("#userEmail").setValue("i@aefimov.ru");
-        $("#userNumber").setValue("906123434");
-        $("#dateOfBirthInput").setValue("09.02.1978");
-        $("#subjectsInput").setValue("Hello world!");
+        $(byText("Male")).click();
+        $("#userNumber").setValue("9061234567");
+
+        $("#dateOfBirthInput").sendKeys(Keys.CONTROL + "A");
+
+        $(".react-datepicker__month-select").selectOption("February");
+        //$(".react-datepicker__year-select").selectOption("2001");
+        //$(".react-datepicker__day").selectOption("9");
+        //$("#dateOfBirthInput").execute(setDateByName("recurrent.startDate", "09 Feb 2001"));
+
+        //$(byXpath("//*[@class=\"react-datepicker__input-container\"]//input")).val("09 Feb 2001").pressEnter();
+        $("#dateOfBirthInput").setValue("Feb 2001").pressEnter();
+
+        $("#subjectsInput").setValue("Computer").pressEnter();
+        $("#subjectsInput").setValue("Eng").pressEnter();
+
+        $(byText("Sports")).click();
+        $(byText("Music")).scrollIntoView(true).click();
+
+        //$("#uploadPicture").sendKeys("gravatar.png");
+        $("#currentAddress").setValue("123098, Moscow, RED sq.1").pressEnter();
+
+        $("#state").click();
+        $(byText("NCR")).click();
+        $("#city").click();
+        $(byText("Delhi")).click();
+
+        String pngFileName = screenshot("qaFirstTest");
+        $("#submit").scrollIntoView(true).click();
 
 
+// check set values
+        $(byText("Student Name")).parent().shouldHave(text("Alexey Efimov"));
+        $(byText("Student Email")).parent().shouldHave(text("i@aefimov.ru"));
+        $("tbody").$(byText("Gender")).parent().shouldHave(text("Male"));
+        $("tbody").$(byText("Mobile")).parent().shouldHave(text("9061234567"));
+        $("tbody").$(byText("Date of Birth")).parent().shouldHave(text("05 February,2021"));
+        $("tbody").$(byText("Subjects")).parent().shouldHave(text("Computer Science, English"));
+        $("tbody").$(byText("Hobbies")).parent().shouldHave(text("Sports, Music"));
+        //Picture
+        $(byText("Address")).parent().shouldHave(text("123098, Moscow, RED sq.1"));
+        $("tbody").$(byText("State and City")).parent().shouldHave(text("NCR Delhi"));
     }
 
 }
