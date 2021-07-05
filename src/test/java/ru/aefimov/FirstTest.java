@@ -3,13 +3,11 @@ package ru.aefimov;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
 
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selectors.by;
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -30,7 +28,7 @@ public class FirstTest {
         $("#genterWrapper").$(byText("Male")).click();
         $("#userNumber").setValue("9061234567");
 
-        $("#dateOfBirthInput").sendKeys(Keys.CONTROL + "A");
+        $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption("February");
         $(".react-datepicker__year-select").selectOption("1980");
         $((".react-datepicker__day--009")).click();
@@ -49,7 +47,6 @@ public class FirstTest {
         $("#city").click();
         $(byText("Delhi")).click();
 
-        String pngFileName = screenshot("qaFirstTest");
         $("#submit").scrollIntoView(true).click();
 
 
