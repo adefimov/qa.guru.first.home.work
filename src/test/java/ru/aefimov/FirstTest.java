@@ -27,11 +27,10 @@ public class FirstTest {
         $("#firstName").setValue("Alexey");
         $("#lastName").setValue("Efimov");
         $("#userEmail").setValue("i@aefimov.ru");
-        $(byText("Male")).click();
+        $("#genterWrapper").$(byText("Male")).click();
         $("#userNumber").setValue("9061234567");
 
         $("#dateOfBirthInput").sendKeys(Keys.CONTROL + "A");
-
         $(".react-datepicker__month-select").selectOption("February");
         $(".react-datepicker__year-select").selectOption("1980");
         $((".react-datepicker__day--009")).click();
@@ -39,8 +38,8 @@ public class FirstTest {
         $("#subjectsInput").setValue("Computer").pressEnter();
         $("#subjectsInput").setValue("Eng").pressEnter();
 
-        $(byText("Sports")).click();
-        $(byText("Music")).scrollIntoView(true).click();
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Music")).scrollIntoView(true).click();
 
         $("#uploadPicture").uploadFile(new File("src/test/resources/gravatar.png"));
         $("#currentAddress").setValue("123098, Moscow, RED sq.1").pressEnter();
